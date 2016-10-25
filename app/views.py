@@ -5,7 +5,7 @@ from wtforms import Form, TextField, TextAreaField, validators, StringField, Sub
 import requests, time, json, os
 from time import sleep
 
-hostip = '192.168.1.139'
+hostip = '172.16.1.179'
 url = 'http://'+hostip+':35747/'
 
 history = []
