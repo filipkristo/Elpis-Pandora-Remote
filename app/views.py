@@ -4,6 +4,8 @@ from app import app
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 import requests, time, json, os
 from time import sleep
+from flask import Response
+from flask import jsonify
 
 hostip = '172.16.1.179'
 url = 'http://'+hostip+':35747/'
@@ -66,13 +68,27 @@ def playSong():
     flash('Pause', 'info')
     return redirect('/index')
 
+@app.route('/host', methods=['POST'])
+
+def setHost():
+
+	request.headers['Content-Type'] == 'application/json'
+	return getHost()
+	
+@app.route('/gethost', methods=['GET'])
+
+def getHost():
+	resp = jsonify(hostip)
+	resp.status_code = 200
+	return resp
+	
 @app.route('/', methods=['GET','POST'])
 @app.route('/index')
 
 def index():
     form = ReusableForm(request.form)
     print(form.errors)
-
+	
     if request.method == 'POST':
         if request.form['btn'] == 'next':
             nextSong()
@@ -82,7 +98,8 @@ def index():
             likeSong()
         elif request.form['btn'] == 'play':
             playSong()
-
+		
+	
     songTitle = getSong()['title']
     artist = getSong()['artist']
     imgURL = getSong()['imgURL']
